@@ -1,6 +1,7 @@
+// src/pages/Summary/Resumo.tsx
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 
@@ -14,8 +15,9 @@ type SummaryProps = {
   };
 };
 
-export function Summary({ route }: SummaryProps) {
-  const { totalValues } = route.params;
+export function Summary() {
+  const route = useRoute();
+  const { totalValues } = route.params as SummaryProps['route']['params'];
   const navigation = useNavigation<SummaryScreenNavigationProp>();
 
   return (
@@ -30,18 +32,10 @@ export function Summary({ route }: SummaryProps) {
           </View>
         )}
       />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('Home')}>
-        <Text style={styles.buttonText}>Home</Text>
-      </TouchableOpacity>
     </View>
   );
 }
 
-
-
-// Styles.ts
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -60,16 +54,5 @@ const styles = StyleSheet.create({
   },
   itemText: {
     fontSize: 18,
-  },
-  button: {
-    padding: 12,
-    backgroundColor: '#007BFF',
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
   },
 });

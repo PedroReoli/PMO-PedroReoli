@@ -79,6 +79,7 @@ export function Home() {
       {
         text: 'Sim',
         onPress: () => removeUser(id),
+        style: 'destructive'
       },
       {
         text: 'Não',
@@ -89,13 +90,12 @@ export function Home() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.eventName}>PMI - Trabalho 2AVD</Text>
+      <Text style={styles.title}>Cadastro de Notas Fiscais</Text>
 
       <View style={styles.form}>
         <TextInput
           style={styles.input}
           placeholder="Nota Fiscal"
-          placeholderTextColor='#6B6B6B'
           keyboardType="numeric"
           value={invoice}
           onChangeText={setInvoice}
@@ -103,7 +103,6 @@ export function Home() {
         <TextInput
           style={styles.input}
           placeholder="Código do Imposto"
-          placeholderTextColor='#6B6B6B'
           keyboardType="numeric"
           value={taxes}
           onChangeText={setTaxes}
@@ -111,7 +110,6 @@ export function Home() {
         <TextInput
           style={styles.input}
           placeholder="Valor da Nota Fiscal"
-          placeholderTextColor='#6B6B6B'
           keyboardType="numeric"
           value={invoiceValor}
           onChangeText={setInvoiceValor}
@@ -119,7 +117,6 @@ export function Home() {
         <TextInput
           style={styles.input}
           placeholder="Estado"
-          placeholderTextColor='#6B6B6B'
           autoCapitalize="characters"
           value={state}
           onChangeText={setState}
@@ -127,14 +124,14 @@ export function Home() {
         <TextInput
           style={styles.input}
           placeholder="Fornecedor"
-          placeholderTextColor='#6B6B6B'
           autoCapitalize="words"
           value={supplier}
           onChangeText={setSupplier}
         />
         <TouchableOpacity
           style={styles.button}
-          onPress={handleNewInvoice}>
+          onPress={handleNewInvoice}
+        >
           <Text style={styles.buttonText}>Incluir</Text>
         </TouchableOpacity>
       </View>
@@ -145,8 +142,11 @@ export function Home() {
         renderItem={({ item }) => (
           <Users
             data={item}
-            onRemove={() => handleRemoveInvoice(item.id)} // Chamada para handleRemoveInvoice corrigida
+            onRemove={() => handleRemoveInvoice(item.id)}
           />
+        )}
+        ListEmptyComponent={() => (
+          <Text style={styles.listEmptyText}>Nenhuma Nota Fiscal Cadastrada</Text>
         )}
       />
     </View>

@@ -19,6 +19,9 @@ export function List() {
             onRemove={() => removeUser(item.id)}
           />
         )}
+        ListEmptyComponent={() => (
+          <Text style={styles.emptyListText}>Nenhuma nota fiscal cadastrada</Text>
+        )}
       />
     </View>
   );
@@ -34,5 +37,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
+    color: '#333',
+    textAlign: 'center',
+  },
+  emptyListText: {
+    fontSize: 18,
+    textAlign: 'center',
+    marginTop: 16,
+    color: '#666',
   },
 });

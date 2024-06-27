@@ -16,13 +16,14 @@ export function Summary({ route }: Props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Resumo</Text>
+      <Text style={styles.title}>Resumo de Faturamento</Text>
       <FlatList
         data={totalValues}
         keyExtractor={(item) => item.key}
         renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Text style={styles.itemText}>{item.key}: R$ {item.value.toFixed(2)}</Text>
+          <View style={styles.itemContainer}>
+            <Text style={styles.itemKey}>{item.key}</Text>
+            <Text style={styles.itemValue}>R$ {item.value.toFixed(2)}</Text>
           </View>
         )}
       />
@@ -34,21 +35,37 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#f0f0f0',
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 16,
+    textAlign: 'center',
+    color: '#333',
   },
-  item: {
-    padding: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
+  itemContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    backgroundColor: '#fff',
+    marginBottom: 8,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 3,
   },
-  itemText: {
-    fontSize: 18,
+  itemKey: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  itemValue: {
+    fontSize: 16,
+    color: '#333',
   },
 });
-
-export default Summary;

@@ -17,7 +17,7 @@ export function Users({ data, onRemove }: PropsData) {
             Nota Fiscal: {data.invoice}
           </Text>
           <Text style={styles.label}>
-            Código do Imposto: {data.invoice}
+            Código do Imposto: {data.taxes}
           </Text>
           <Text style={styles.label}>
             Valor da Nota Fiscal: R$ {data.invoiceValor.toFixed(2)}

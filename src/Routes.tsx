@@ -3,7 +3,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Home } from '@/_root/pages/Home/Home';
-import { Summary } from '@/_root/pages/Summary/Resumo';
+import Summary  from '@/_root/pages/Summary/Resumo';
 import { List } from '@/_root/pages/List/List';
 
 const Tab = createBottomTabNavigator();

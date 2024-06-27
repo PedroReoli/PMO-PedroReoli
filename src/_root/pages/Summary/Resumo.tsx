@@ -15,7 +15,7 @@ type Transaction = {
   value: number;
 };
 
-export function Summary({ route }: Props) {
+const Summary = ({ route }: Props) => {
   const { totalValues, transactions } = useContext(DataContext);
   const navigation = useNavigation();
   const [expandedKey, setExpandedKey] = useState<string | null>(null);
@@ -37,13 +37,21 @@ export function Summary({ route }: Props) {
 
   const renderItem = ({ item }: { item: { key: string; value: number } }) => (
     <TouchableOpacity style={styles.item} onPress={() => handleExpand(item.key)}>
-      <Text style={styles.itemText}>{item.key}</Text>
+      <View style={styles.itemHeader}>
+        <Text style={styles.itemHeaderText}>{item.key}</Text>
+        <TouchableOpacity
+          style={styles.showTotalButton}
+          onPress={() => handleExpand(item.key)}
+        >
+          <Text style={styles.showTotalButtonText}>Mostrar Total</Text>
+        </TouchableOpacity>
+      </View>
       {expandedKey === item.key && (
         <View style={styles.details}>
           {transactions[item.key]?.map((transaction, index) => (
             <View key={index}>{renderDetailItem(transaction)}</View>
           ))}
-          <Text style={styles.totalText}>Total: R$ {item.value.toFixed(2)}</Text>
+          <Text style={styles.totalText}>Total: <Text style={styles.totalValue}>R$ {item.value.toFixed(2)}</Text></Text>
         </View>
       )}
     </TouchableOpacity>
@@ -56,45 +64,80 @@ export function Summary({ route }: Props) {
         data={totalValues}
         keyExtractor={(item) => item.key}
         renderItem={renderItem}
+        contentContainerStyle={styles.listContainer}
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#f0f0f0',
     padding: 16,
-    backgroundColor: '#fff',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
+    textAlign: 'center',
+  },
+  listContainer: {
+    paddingHorizontal: 8,
   },
   item: {
-    padding: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
+    backgroundColor: '#fff',
+    padding: 16,
+    marginBottom: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    elevation: 3,
   },
-  itemText: {
+  itemHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  itemHeaderText: {
     fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    color: '#333',
+  },
+  showTotalButton: {
+    backgroundColor: '#007BFF',
+    borderRadius: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  showTotalButtonText: {
+    color: '#fff',
+    fontSize: 14,
     fontWeight: 'bold',
   },
   details: {
     marginTop: 8,
-    paddingHorizontal: 16,
+  },
+  totalText: {
+    fontSize: 18,
+    marginTop: 12,
+    fontWeight: 'bold',
+    textAlign: 'right',
+    color: '#333',
+  },
+  totalValue: {
+    color: '#007BFF',
   },
   detailItem: {
     marginBottom: 8,
   },
   detailText: {
     fontSize: 16,
-  },
-  totalText: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: 'bold',
+    marginBottom: 4,
+    color: '#555',
   },
 });
 

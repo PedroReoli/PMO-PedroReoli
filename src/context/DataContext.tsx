@@ -1,5 +1,5 @@
 // src/context/DataContext.tsx
-import React, { createContext, useState, ReactNode } from 'react';
+import React, { createContext, useState, ReactNode, useEffect } from 'react';
 import { Props } from '@/types';
 
 type DataContextType = {
@@ -39,6 +39,11 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
 
     setTotalValues(calculatedValues);
   };
+
+  // Atualiza totalValues sempre que users mudar
+  useEffect(() => {
+    calculateTotalValues();
+  }, [users]);
 
   return (
     <DataContext.Provider value={{ users, totalValues, addUser, removeUser, calculateTotalValues }}>

@@ -1,14 +1,18 @@
 // src/pages/Summary/Resumo.tsx
 import React, { useContext } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { RouteProp } from '@react-navigation/native';
+import { RootStackParamList } from '@/types'; // Renomeando Props como PropsType
 import { DataContext } from '@/context/DataContext';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '@/types';
 
-type SummaryScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Summary'>;
+type SummaryScreenRouteProp = RouteProp<RootStackParamList, 'Summary'>;
 
-export function Summary() {
-  const { totalValues } = useContext(DataContext)!; // Use ! to assert non-null since defaultValue is provided
+type Props = {
+  route: SummaryScreenRouteProp;
+};
+
+export function Summary({ route }: Props) {
+  const { totalValues } = useContext(DataContext);
 
   return (
     <View style={styles.container}>

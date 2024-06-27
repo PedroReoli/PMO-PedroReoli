@@ -1,6 +1,6 @@
 // src/pages/Home/Home.tsx
 import React, { useState, useContext } from 'react';
-import { Text, View, TextInput, TouchableOpacity, Alert, FlatList } from 'react-native';
+import { Text, View, TextInput, Alert, FlatList, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { styles } from './styles';
@@ -17,7 +17,7 @@ export function Home() {
   const [state, setState] = useState('');
   const [supplier, setSupplier] = useState('');
   const navigation = useNavigation<HomeScreenNavigationProp>();
-  const { users, addUser, removeUser, calculateTotalValues } = useContext(DataContext);
+  const { users, addUser, removeUser } = useContext(DataContext);
 
   const validTaxCodes = [1234, 6789, 1708, 5952];
   const validStates = ['RJ', 'SP', 'MG'];
@@ -87,15 +87,6 @@ export function Home() {
     ]);
   }
 
-  function showSummary() {
-    calculateTotalValues();
-    navigation.navigate('Summary');
-  }
-
-  function showList() {
-    navigation.navigate('List');
-  }
-
   return (
     <View style={styles.container}>
       <Text style={styles.eventName}>PMI - Trabalho 2AVD</Text>
@@ -154,7 +145,7 @@ export function Home() {
         renderItem={({ item }) => (
           <Users
             data={item}
-            onRemove={() => handleRemoveInvoice(item.id)}
+            onRemove={() => handleRemoveInvoice(item.id)} // Chamada para handleRemoveInvoice corrigida
           />
         )}
       />

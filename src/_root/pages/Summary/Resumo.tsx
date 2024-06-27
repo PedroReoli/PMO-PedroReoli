@@ -1,24 +1,14 @@
 // src/pages/Summary/Resumo.tsx
-import React from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useContext } from 'react';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { DataContext } from '@/context/DataContext';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/types';
 
 type SummaryScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Summary'>;
 
-type SummaryProps = {
-  route: {
-    params: {
-      totalValues: { key: string; value: number; }[];
-    };
-  };
-};
-
 export function Summary() {
-  const route = useRoute();
-  const { totalValues } = route.params as SummaryProps['route']['params'];
-  const navigation = useNavigation<SummaryScreenNavigationProp>();
+  const { totalValues } = useContext(DataContext)!; // Use ! to assert non-null since defaultValue is provided
 
   return (
     <View style={styles.container}>
@@ -56,3 +46,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
+
+export default Summary;

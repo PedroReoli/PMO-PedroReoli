@@ -1,17 +1,12 @@
-import React, { useState } from 'react';
-import {
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-  FlatList,
-} from 'react-native';
+// src/pages/Home/Home.tsx
+import React, { useState, useContext } from 'react';
+import { Text, View, TextInput, TouchableOpacity, Alert, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { styles } from './styles';
 import { Users } from '@/components/Users/Users';
 import { RootStackParamList, Props } from '@/types';
+import { DataContext } from '@/context/DataContext';
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -21,8 +16,8 @@ export function Home() {
   const [invoiceValor, setInvoiceValor] = useState('');
   const [state, setState] = useState('');
   const [supplier, setSupplier] = useState('');
-  const [users, setUsers] = useState<Props[]>([]);
   const navigation = useNavigation<HomeScreenNavigationProp>();
+  const { users, addUser, removeUser, calculateTotalValues } = useContext(DataContext);
 
   const validTaxCodes = [1234, 6789, 1708, 5952];
   const validStates = ['RJ', 'SP', 'MG'];
@@ -71,7 +66,7 @@ export function Home() {
       supplier
     };
 
-    setUsers([...users, data]);
+    addUser(data);
     setInvoice('');
     setTaxes('');
     setInvoiceValor('');
@@ -83,7 +78,7 @@ export function Home() {
     Alert.alert('Remover', 'Deseja remover a nota fiscal?', [
       {
         text: 'Sim',
-        onPress: () => setUsers(users => users.filter(user => user.id !== id))
+        onPress: () => removeUser(id),
       },
       {
         text: 'Não',
@@ -92,34 +87,18 @@ export function Home() {
     ]);
   }
 
-  function getTotalValues() {
-    const totals = users.reduce((acc, user) => {
-      const key = `${user.supplier}-${user.state}`;
-      if (!acc[key]) acc[key] = 0;
-      acc[key] += user.invoiceValor + user.taxes;
-      return acc;
-    }, {});
-
-    return Object.entries(totals).map(([key, value]) => ({
-      key,
-      value: Number(value) // Assegurando que value seja um número
-    }));
-  }
-
   function showSummary() {
-    const totalValues = getTotalValues();
-    navigation.navigate('Summary', { totalValues });
+    calculateTotalValues();
+    navigation.navigate('Summary');
   }
 
   function showList() {
-    navigation.navigate('List', { users });
+    navigation.navigate('List');
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.eventName}>
-        PMI - Trabalho 2AVD
-      </Text>
+      <Text style={styles.eventName}>PMI - Trabalho 2AVD</Text>
 
       <View style={styles.form}>
         <TextInput
@@ -179,18 +158,6 @@ export function Home() {
           />
         )}
       />
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={showSummary}>
-        <Text style={styles.buttonText}>Resumo</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={showList}>
-        <Text style={styles.buttonText}>Listagem</Text>
-      </TouchableOpacity>
     </View>
   );
 }

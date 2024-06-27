@@ -1,21 +1,11 @@
 // src/pages/List/List.tsx
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
-import { useRoute } from '@react-navigation/native';
 import { Users } from '@/components/Users/Users';
-import { Props } from '@/types';
-
-type ListProps = {
-  route: {
-    params: {
-      users: Props[];
-    };
-  };
-};
+import { DataContext } from '@/context/DataContext';
 
 export function List() {
-  const route = useRoute();
-  const { users } = route.params as ListProps['route']['params'];
+  const { users, removeUser } = useContext(DataContext);
 
   return (
     <View style={styles.container}>
@@ -26,7 +16,7 @@ export function List() {
         renderItem={({ item }) => (
           <Users
             data={item}
-            onRemove={() => {}}
+            onRemove={() => removeUser(item.id)}
           />
         )}
       />
